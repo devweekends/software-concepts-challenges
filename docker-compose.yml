@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: errand
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: errand
+    ports:
+      - "127.0.0.1:${ERRAND_DB_PORT:-5432}:5432"
+    volumes:
+      - errand-db:/var/lib/postgresql
+  practice-api:
+    build: ./practice-api
+    image: errand-practice-api:1
+    environment:
+      PRACTICE_TEST_KEY: ${PRACTICE_API_KEY}
+      PRACTICE_MODE: ${PRACTICE_MODE:-test}
+      PRACTICE_MIN_DELAY_MS: ${PRACTICE_MIN_DELAY_MS:-2000}
+      PRACTICE_MAX_DELAY_MS: ${PRACTICE_MAX_DELAY_MS:-30000}
+    ports:
+      - "127.0.0.1:4010:4010"
+volumes:
+  errand-db:
