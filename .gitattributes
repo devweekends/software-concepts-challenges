@@ -1,0 +1,11 @@
+# Keep every text file in Unix line endings, even when you work on Windows.
+# Postgres, Docker and the hook script all break on Windows line endings.
+* text=auto eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.sql text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+Dockerfile text eol=lf
+.githooks/* text eol=lf
