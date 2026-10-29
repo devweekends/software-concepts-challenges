@@ -48,7 +48,7 @@ Run these in PowerShell, in the folder of your own copy. The services from chall
 | 9 | View model: send `priority` | The field leaves | [task-response.js#L28](../../../src/shapes/task-response.js#L28) |
 | 10 | HTML: show the priority next to the title | You see it on the page | [task-list.js#L15](../../../src/views/task-list.js#L15) |
 | 11 | `node --env-file=.env --test` after each file | The number of failing tests goes down. When the given tests pass, go on | none |
-| 12 | Write your two tests in `test/priority.test.js`, then delete the `{ todo: ... }` part of each | A task with no priority becomes `normal`. A priority of `urgent` gets a `400` | [priority.test.js#L29](../../../test/priority.test.js#L31) |
+| 12 | Write your two tests in `test/priority.test.js`, then delete the `{ todo: ... }` part of each | A task with no priority becomes `normal`. A priority of `urgent` gets a `400` | [priority.test.js#L29](../../../test/priority.test.js#L29) |
 | 13 | Negative control: in `src/shapes/user-response.js`, add `passwordHash: user.passwordHash` to the returned object, run the tests, then delete the line | Two tests fail, and one message says `internal field passwordHash reached a response`. Without the line they pass | [user-response.js#L8](../../../src/shapes/user-response.js#L8) |
 | 14 | `node tools/drill.mjs 1`, then open http://127.0.0.1:3001/profile | A second copy of Errand, with one fault, on port 3001. You see `passwordHash` in the profile | [drill.mjs](../../../tools/drill.mjs) |
 | 15 | Find the one line in `drill-1/` that sends it. Write down how you found it | The fault write-up | `drill-1/src/` |
@@ -65,7 +65,7 @@ When you find it, write one line, in this order: the symptom, your first hypothe
 ## Hints
 
 1. Which layer builds the response for `GET /profile`? The root [README](../../../README.md) has a table of the layers. Open its folder in `drill-1/src`.
-2. Open `drill-1/src/controllers/profile.js`. Read the last three lines. Look at what the controller passes to `sendJson`.
+2. Open `drill-1/src/controllers/profile.js`. Read the last three lines. Look at what the controller passes to `res.json`.
 3. The line passes the object from the service to the response without a view model. Compare it with the profile controller in your own `src`, which calls `toUserResponse`. The difference is one function call.
 
 If a step stalls: the migration prints `FAILED 002_add_priority.sql:` and the database's own message (read it, it names the problem); the tests cannot connect (run `node tools/check.mjs`, and check that you used `--env-file=.env`); the migration says `nothing to apply` but the column is missing (you edited `001`, or the new file has the wrong name); a test says the keys are wrong and `priority` is `undefined` (one layer forgot the field, so print the object at each step with `console.log`).

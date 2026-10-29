@@ -57,5 +57,5 @@ test('results.md has no placeholder left', () => {
 });
 
 test('results.md shows the table after the migration', () => {
-  assert.ok(results.includes('tasks_priority_check'), 'paste the output of \d tasks. It should include the tasks_priority_check line');
+  assert.ok(results.includes('tasks_priority_check'), String.raw`paste the output of \d tasks. It should include the tasks_priority_check line`);
 });
